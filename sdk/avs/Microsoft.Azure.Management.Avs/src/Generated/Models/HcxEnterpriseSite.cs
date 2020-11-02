@@ -10,15 +10,12 @@
 
 namespace Microsoft.Azure.Management.Avs.Models
 {
-    using Microsoft.Rest;
-    using Microsoft.Rest.Serialization;
     using Newtonsoft.Json;
     using System.Linq;
 
     /// <summary>
     /// An HCX Enterprise Site resource
     /// </summary>
-    [Rest.Serialization.JsonTransformation]
     public partial class HcxEnterpriseSite : Resource
     {
         /// <summary>
@@ -35,15 +32,12 @@ namespace Microsoft.Azure.Management.Avs.Models
         /// <param name="id">Resource ID.</param>
         /// <param name="name">Resource name.</param>
         /// <param name="type">Resource type.</param>
-        /// <param name="activationKey">The activation key</param>
-        /// <param name="status">The status of the HCX Enterprise Site.
-        /// Possible values include: 'Available', 'Consumed', 'Deactivated',
-        /// 'Deleted'</param>
-        public HcxEnterpriseSite(string id = default(string), string name = default(string), string type = default(string), string activationKey = default(string), string status = default(string))
+        /// <param name="properties">The properties of an HCX Enterprise Site
+        /// resource</param>
+        public HcxEnterpriseSite(string id = default(string), string name = default(string), string type = default(string), HcxEnterpriseSiteProperties properties = default(HcxEnterpriseSiteProperties))
             : base(id, name, type)
         {
-            ActivationKey = activationKey;
-            Status = status;
+            Properties = properties;
             CustomInit();
         }
 
@@ -53,17 +47,10 @@ namespace Microsoft.Azure.Management.Avs.Models
         partial void CustomInit();
 
         /// <summary>
-        /// Gets the activation key
+        /// Gets the properties of an HCX Enterprise Site resource
         /// </summary>
-        [JsonProperty(PropertyName = "properties.activationKey")]
-        public string ActivationKey { get; private set; }
-
-        /// <summary>
-        /// Gets the status of the HCX Enterprise Site. Possible values
-        /// include: 'Available', 'Consumed', 'Deactivated', 'Deleted'
-        /// </summary>
-        [JsonProperty(PropertyName = "properties.status")]
-        public string Status { get; private set; }
+        [JsonProperty(PropertyName = "properties")]
+        public HcxEnterpriseSiteProperties Properties { get; private set; }
 
     }
 }
