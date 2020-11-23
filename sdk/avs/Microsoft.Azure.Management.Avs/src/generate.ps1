@@ -1,1 +1,1 @@
-Start-AutoRestCodeGeneration -ResourceProvider "vmware/resource-manager" -AutoRestVersion "v2"
+Start-AutoRestCodeGeneration -ResourceProvider "vmware/resource-manager" -AutoRestVersion "v2" -ConfigFileTag "package-2020-07-17-preview"
