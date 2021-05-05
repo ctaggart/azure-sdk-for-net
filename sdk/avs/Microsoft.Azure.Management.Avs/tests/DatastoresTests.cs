@@ -16,11 +16,11 @@ namespace Avs.Tests
         [Fact]
         public void DatastoresAll()
         {
+            using var context = MockContext.Start(this.GetType());
             string rgName = TestUtilities.GenerateName(PREFIX + "rg");
             string cloudName = TestUtilities.GenerateName(PREFIX + "cloud");
             string clusterName = TestUtilities.GenerateName(PREFIX + "cluster");
 
-            using var context = MockContext.Start(this.GetType());
             using var avsClient = context.GetServiceClient<AvsClient>();
 
             var datastoreName = "datastore1";
