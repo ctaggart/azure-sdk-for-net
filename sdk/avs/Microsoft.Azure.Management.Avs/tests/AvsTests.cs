@@ -45,7 +45,7 @@ namespace Avs.Tests
                     Sku = new Sku { Name = "av20" },
                     ManagementCluster = new ManagementCluster
                     {
-                        ClusterSize = 4,
+                        ClusterSize = 3,
                     },
                     NetworkBlock = "192.168.48.0/22"
                 });
@@ -112,6 +112,42 @@ namespace Avs.Tests
 
                 // clouds = avsClient.PrivateClouds.List(rgName);
                 // Assert.True(clouds.Count() == 0);
+
+            }
+            finally
+            {
+                rmClient.ResourceGroups.Delete(rgName);
+            }
+        }
+
+        [Fact]
+        public void PasswordResets()
+        {
+            using var context = MockContext.Start(this.GetType());
+            string rgName = TestUtilities.GenerateName(PREFIX + "rg");
+            string cloudName = TestUtilities.GenerateName(PREFIX + "cloud");
+            string location = "centralus";
+
+            using var rmClient = context.GetServiceClient<ResourceManagementClient>();
+            rmClient.ResourceGroups.CreateOrUpdate(rgName, new ResourceGroup { Location = location });
+
+            try
+            {
+                using var avsClient = context.GetServiceClient<AvsClient>();
+                var privateCloud = avsClient.PrivateClouds.CreateOrUpdate(rgName, cloudName, new PrivateCloud
+                {
+                    Location = location,
+                    Sku = new Sku { Name = "av20" },
+                    ManagementCluster = new ManagementCluster
+                    {
+                        ClusterSize = 3,
+                    },
+                    NetworkBlock = "192.168.48.0/22"
+                });
+
+                avsClient.PrivateClouds.RotateNsxtPassword(rgName, cloudName);
+
+                avsClient.PrivateClouds.RotateVcenterPassword(rgName, cloudName);
 
             }
             finally
