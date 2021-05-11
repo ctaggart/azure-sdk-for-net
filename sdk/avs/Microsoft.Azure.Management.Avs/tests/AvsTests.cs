@@ -124,37 +124,24 @@ namespace Avs.Tests
         public void PasswordResets()
         {
             using var context = MockContext.Start(this.GetType());
-            string rgName = TestUtilities.GenerateName(PREFIX + "rg");
-            string cloudName = TestUtilities.GenerateName(PREFIX + "cloud");
-            string location = "centralus";
+            string rgName = "aumarcel-eastus2-rg";
+            string cloudName = "aumarcel-2021-05-06-hcx";
+            
+            using var avsClient = context.GetServiceClient<AvsClient>();
+            avsClient.HttpClient.Timeout = System.Threading.Timeout.InfiniteTimeSpan;
 
-            using var rmClient = context.GetServiceClient<ResourceManagementClient>();
-            rmClient.ResourceGroups.CreateOrUpdate(rgName, new ResourceGroup { Location = location });
+            var credsA = avsClient.PrivateClouds.ListAdminCredentials(rgName, cloudName);
 
-            try
-            {
-                using var avsClient = context.GetServiceClient<AvsClient>();
-                var privateCloud = avsClient.PrivateClouds.CreateOrUpdate(rgName, cloudName, new PrivateCloud
-                {
-                    Location = location,
-                    Sku = new Sku { Name = "av20" },
-                    ManagementCluster = new ManagementCluster
-                    {
-                        ClusterSize = 3,
-                    },
-                    NetworkBlock = "192.168.48.0/22"
-                });
+            var credsB = avsClient.PrivateClouds.ListAdminCredentials(rgName, cloudName);
+            Assert.Equal(credsA.NsxtPassword, credsB.NsxtPassword);
+            Assert.Equal(credsA.VcenterPassword, credsB.VcenterPassword);
 
-                avsClient.PrivateClouds.RotateNsxtPassword(rgName, cloudName);
+            avsClient.PrivateClouds.RotateNsxtPassword(rgName, cloudName);
+            avsClient.PrivateClouds.RotateVcenterPassword(rgName, cloudName);
 
-                avsClient.PrivateClouds.RotateVcenterPassword(rgName, cloudName);
-
-            }
-            finally
-            {
-                rmClient.ResourceGroups.Delete(rgName);
-            }
+            var credsC = avsClient.PrivateClouds.ListAdminCredentials(rgName, cloudName);
+            Assert.NotEqual(credsA.NsxtPassword, credsC.NsxtPassword);
+            Assert.NotEqual(credsA.VcenterPassword, credsC.VcenterPassword);
         }
-
     }
 }
