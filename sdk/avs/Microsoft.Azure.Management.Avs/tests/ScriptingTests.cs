@@ -46,6 +46,7 @@ namespace Avs.Tests
 
         }
 
+        [Fact]
         public void ScriptExecutionsAll() 
         {
             using var context = MockContext.Start(this.GetType());
