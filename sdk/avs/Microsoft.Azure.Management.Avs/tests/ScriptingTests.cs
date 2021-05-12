@@ -11,14 +11,12 @@ namespace Avs.Tests
 {
     public class ScriptingTests : TestBase
     {
-        const string PREFIX = "avs-sdk-script-";
-
         [Fact]
         public void ScriptPackagesAll()
         {
             using var context = MockContext.Start(this.GetType());
-            string rgName = TestUtilities.GenerateName(PREFIX + "rg");
-            string cloudName = TestUtilities.GenerateName(PREFIX + "cloud");
+            string rgName = "anullian-rg";
+            string cloudName = "anullian-southcentralus-runcommand";
 
             using var avsClient = context.GetServiceClient<AvsClient>();
 
@@ -33,13 +31,13 @@ namespace Avs.Tests
         public void ScriptCmdletsAll()
         {
             using var context = MockContext.Start(this.GetType());
-            string rgName = TestUtilities.GenerateName(PREFIX + "rg");
-            string cloudName = TestUtilities.GenerateName(PREFIX + "cloud");
+            string rgName = "anullian-rg";
+            string cloudName = "anullian-southcentralus-runcommand";
 
             using var avsClient = context.GetServiceClient<AvsClient>();
 
             var scriptPackage = "JSDR.Configuration@1.0.16";
-            var cmdletName = "Invoke-PreflightJetDR";
+            var cmdletName = "invoke-preflightjetdrsystemcheck";
             avsClient.ScriptCmdlets.List(rgName, cloudName, scriptPackage);
 
             avsClient.ScriptCmdlets.Get(rgName, cloudName, scriptPackage, cmdletName);
@@ -50,16 +48,17 @@ namespace Avs.Tests
         public void ScriptExecutionsAll() 
         {
             using var context = MockContext.Start(this.GetType());
-            string rgName = TestUtilities.GenerateName(PREFIX + "rg");
-            string cloudName = TestUtilities.GenerateName(PREFIX + "cloud");
-            string executionName = TestUtilities.GenerateName(PREFIX + "execution");
+            string rgName = "anullian-rg";
+            string cloudName = "anullian-southcentralus-runcommand";
+            string executionName = TestUtilities.GenerateName("scripting_execution");
 
             using var avsClient = context.GetServiceClient<AvsClient>();
 
-            var execution = avsClient.ScriptExecutions.CreateOrUpdate(rgName, cloudName, executionName, 
-                new ScriptExecution {
+            ScriptExecution execution = avsClient.ScriptExecutions.CreateOrUpdate(rgName, cloudName, executionName, new ScriptExecution 
+                {
                     Timeout = "PT1H",
-                    ScriptCmdletId = "JSDR.Configuration/1.0.16/Invoke-PreflightJetDR",
+                    ScriptCmdletId = "JSDR.Configuration/1.0.16/invoke-preflightjetdrsystemcheck",
+                    Parameters = null
                 });
 
             avsClient.ScriptExecutions.Get(rgName, cloudName, executionName);
