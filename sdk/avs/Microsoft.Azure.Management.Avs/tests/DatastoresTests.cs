@@ -11,22 +11,22 @@ namespace Avs.Tests
 {
     public class DatastoresTests : TestBase
     {
-        const string PREFIX = "avs-sdk-ds-";
-
         [Fact]
         public void DatastoresAll()
         {
             using var context = MockContext.Start(this.GetType());
-            string rgName = TestUtilities.GenerateName(PREFIX + "rg");
-            string cloudName = TestUtilities.GenerateName(PREFIX + "cloud");
-            string clusterName = TestUtilities.GenerateName(PREFIX + "cluster");
+            string rgName = "mock-avs-fct-dogfood-conveyor-eastus";
+            string cloudName = "fct-mock-eastus-15";
+            string clusterName = "Cluster-1";
 
             using var avsClient = context.GetServiceClient<AvsClient>();
 
-            var datastoreName = "datastore1";
+            var datastoreName = "fct-mock-datastore-1";
             var datastore = avsClient.Datastores.CreateOrUpdate(rgName, cloudName, clusterName, datastoreName, new Datastore {
-                NetAppVolume = new NetAppVolume {
-                    Id = "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/ResourceGroup1/providers/Microsoft.NetApp/netAppAccounts/NetAppAccount1/capacityPools/CapacityPool1/volumes/NFSVol1"
+                DiskPoolVolume = new DiskPoolVolume {
+                    TargetId = "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/resourceGroupName/providers/Microsoft.StoragePool/diskPools/diskPoolName/iscsiTargets/targetName",
+                    LunName = "mock-lun-name",
+                    MountOption = "MOUNT"
                 }
             });
 
