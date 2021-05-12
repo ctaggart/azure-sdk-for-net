@@ -57,8 +57,7 @@ namespace Avs.Tests
             ScriptExecution execution = avsClient.ScriptExecutions.CreateOrUpdate(rgName, cloudName, executionName, new ScriptExecution 
                 {
                     Timeout = "PT1H",
-                    ScriptCmdletId = "JSDR.Configuration/1.0.16/invoke-preflightjetdrsystemcheck",
-                    Parameters = null
+                    ScriptCmdletId = "JSDR.Configuration/1.0.16/invoke-preflightjetdrsystemcheck"
                 });
 
             avsClient.ScriptExecutions.Get(rgName, cloudName, executionName);
