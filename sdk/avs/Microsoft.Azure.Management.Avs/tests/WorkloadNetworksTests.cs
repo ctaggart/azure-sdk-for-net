@@ -17,8 +17,8 @@ namespace Avs.Tests
         public void WorkloadNetworksDhcp()
         {
             using var context = MockContext.Start(this.GetType());
-            string rgName = "mock-avs-tests";
-            string cloudName = "mock-avs-cloud";
+            string rgName = "wezamlyn-test-117";
+            string cloudName = "wezamlyn-test-117";
 
             using var avsClient = context.GetServiceClient<AvsClient>();
 
@@ -45,8 +45,8 @@ namespace Avs.Tests
         public void WorkloadNetworksDns()
         {
             using var context = MockContext.Start(this.GetType());
-            string rgName = "mock-avs-tests";
-            string cloudName = "mock-avs-cloud";
+            string rgName = "wezamlyn-test-117";
+            string cloudName = "wezamlyn-test-117";
 
             using var avsClient = context.GetServiceClient<AvsClient>();
             
@@ -113,8 +113,8 @@ namespace Avs.Tests
         public void WorkloadNetworksGatewaysSegments()
         {
             using var context = MockContext.Start(this.GetType());
-            string rgName = "mock-avs-tests";
-            string cloudName = "mock-avs-cloud";
+            string rgName = "wezamlyn-test-117";
+            string cloudName = "wezamlyn-test-117";
 
             using var avsClient = context.GetServiceClient<AvsClient>();
 
@@ -145,8 +145,8 @@ namespace Avs.Tests
         public void WorkloadNetworksVirtualMachinesVmGroupsPortMirroring()
         {
             using var context = MockContext.Start(this.GetType());
-            string rgName = "mock-avs-tests";
-            string cloudName = "mock-avs-cloud";
+            string rgName = "wezamlyn-test-117";
+            string cloudName = "wezamlyn-test-117";
 
             using var avsClient = context.GetServiceClient<AvsClient>();
 
